@@ -17,17 +17,18 @@ export class Service{
 
     async createPost({title,slug,content,featuredImage,status,userId}){
         try {
+            console.warn("createDocument======== ",{title,slug,content,featuredImage,status,userId})
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug,
-                [
+                {
                     title,
                     content,
                     featuredImage,
                     status,
-                    userId
-                ]
+                    user:userId
+                }
             )
         } catch (error) {
             console.error("Appwrite service :: createPost::error", error)
@@ -68,7 +69,7 @@ export class Service{
 
     async getPost(slug){
         try {
-            await this.databases.deleteDocument(
+            await this.databases.getDocument(
                conf.appwriteDatabaseId,
                conf.appwriteCollectionId,
                slug
